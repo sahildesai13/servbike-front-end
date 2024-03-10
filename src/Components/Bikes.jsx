@@ -58,19 +58,17 @@ function Bikes() {
     };
 
     let handleSave = () => {
-        if (isSelectionDisabled) {
+        if (isSelectionDisabled && userService) {
             axios.post('http://localhost:4500/savebike', { emailid, selectedBike, userService })
                 .then(result => {
-                    // Handle the response
                     console.log(result);
                 })
                 .catch(err => {
-                    // Handle errors
                     console.error(err);
                 });
 
         } else {
-            alert("please First select the Brand And Bike Name")
+            alert("please First select the Brand And Bike Name And Select the Services")
         }
     }
 
