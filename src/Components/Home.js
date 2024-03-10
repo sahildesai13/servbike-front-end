@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './NavBar';
 import Services from './Services';
-
+import Bikes from './Bikes';
+import { useDispatch } from 'react-redux'
+import { AddUser } from '../reduxapp/dataSlice';
 const Home = () => {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -37,12 +39,21 @@ const Home = () => {
     navigate('/login');
   };
 
+  useEffect(() => {
+    dispatch(AddUser({ userName: userData.name, userEmail: userData.email }));
+  }, [userData, dispatch]);
+  
+
   return (
     <div>
       <NavBar></NavBar>
 
-      <p>Welcome, {userData.name}!</p>
-      <a href='' onClick={handleLogout}>Logout</a>
+      <p>Welcome, {userData.name}! {userData.email}</p>
+      <button type="button" onClick={handleLogout} style={{ border: 'none', background: 'none', textDecoration: 'underline', cursor: 'pointer' }}>
+        Logout
+      </button>
+
+      <Bikes />
       <Services></Services>
     </div>
   );
